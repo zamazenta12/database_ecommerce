@@ -36,6 +36,6 @@
             "count" => count($arrayproduct)
         )));
     }
-    
+    header("Content-Type: application/json");
     echo $json_output;
 ?>
