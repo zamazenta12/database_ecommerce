@@ -19,5 +19,6 @@
 
         array_push($arrayproduct, $data);
     }
+    header("Content-Type: application/json");
     echo json_encode($arrayproduct);
 ?>
