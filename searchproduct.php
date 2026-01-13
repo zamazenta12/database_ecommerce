@@ -1,18 +1,38 @@
 <?php
 include_once 'dbconnect.php';
+
+header("Content-Type: application/json");
+
+if (!isset($_GET['search']) || empty($_GET['search'])) {
+    echo json_encode([]);
+    exit;
+}
+
 $search = $_GET['search'];
-$sql = "SELECT * FROM product_items WHERE name LIKE '%$search%' || category LIKE '%$search%' || vendors LIKE '%$search%'";
-$exec = mysqli_query($conn, $sql);
-$exec = $conn -> query($sql);
+
+$sql = "SELECT id, name, price, promo, description, images, stock, vendors, category 
+        FROM product_items 
+        WHERE name LIKE ? OR category LIKE ? OR vendors LIKE ?";
+$stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die(json_encode(["error" => "Prepare failed: " . $conn->error]));
+}
+
+$searchParam = "%$search%";
+$stmt->bind_param("sss", $searchParam, $searchParam, $searchParam);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $itemproduct = array();
 
-if($exec -> num_rows > 0){
-    while($row = $exec -> fetch_assoc()){
-        $itemproduct[]= row;
-
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $itemproduct[] = $row;
     }
 }
+
 echo json_encode($itemproduct);
-$conn -> close();
+$stmt->close();
+$conn->close();
 ?>
