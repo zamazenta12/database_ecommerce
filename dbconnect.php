@@ -2,11 +2,10 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    define('DB_CONNECTION', 'mysql');
     define('DB_HOST', 'mysql.railway.internal');
     define('DB_USER', 'root');
     define('DB_NAME', 'railway');
-    define('DB_PASS', 'LBAoMnQRBULqXAeLJTRLVuAogiUuVXNO');
+    define('DB_PASS', 'WdtMCwmTWbaSUyJMyyYcjLOXIGcPVefv');
 
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
